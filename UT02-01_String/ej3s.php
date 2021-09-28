@@ -67,22 +67,23 @@
 		
 		for($i=1;$i<5;$i++){
 			if($masc>0&&$masc%8==0){
-				echo $mascs[8].".";
+				echo base_convert($mascs[8],2,10).".";
 				$masc=$masc-8;
 			}else if($masc/8>=1){
-				echo $mascs[8].".";
+				echo base_convert($mascs[8],2,10).".";
 				$masc=$masc-8;
 			}else{
-				echo $mascs[$masc].".";
+				echo base_convert($mascs[$masc],2,10).".";
 				$masc=0;
 			}
 		}
 		echo "<br/>";
 	}
-	echo $ip1.".".$ip2.".".$ip3.".".$ip4."<br/>";
+	echo "La Ip ".$ip1.".".$ip2.".".$ip3.".".$ip4."<br/>";
+	echo "Direccion de red ";
 	echo direccionRed($masc,$ip1,$ip2,$ip3,$ip4)."<br/>";
-	echo direccionMasc($masc);
-	echo "La Ip y mascara $ipmasc<br/>";
+	echo "Mascara de red ";
+	echo direccionMasc($masc)."<br/>";
 	echo "La Ip $ip<br/>";
 	echo "La mascara es $masc <br/>";
 	echo "La direccion de red <br/>";
