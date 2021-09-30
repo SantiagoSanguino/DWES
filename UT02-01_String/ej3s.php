@@ -79,11 +79,141 @@
 		}
 		echo "<br/>";
 	}
-	echo "La Ip ".$ip1.".".$ip2.".".$ip3.".".$ip4."<br/>";
+	function direccionBroadcast($masc,$ip1,$ip2,$ip3,$ip4){
+		$cont=$masc/8;
+		$mascs=array("00000000","10000000","11000000","11100000","11110000","11111000","11111100","11111110","11111111");
+		
+		for($i=0;$i<4;$i++){
+			if($masc>0&&$masc%8==0){
+				if($masc%8==0){
+					if($i==0&&$cont>=0){
+						echo "$ip1.";
+					}else if($i==1&&$cont>=1){
+						echo "$ip2.";
+					}else if($i==2&&$cont>=2){
+						echo "$ip3.";
+					}else if($i==3&&$cont>=3){
+						echo "$ip4 <br/>";
+					}else{
+						echo base_convert($mascs[8],2,10).".";
+					}
+					$cont--;
+					$masc-=8;
+				}else  if($masc/8>=1){
+					if($i==0&&$cont>=0){
+						echo "$ip1.";
+					}else if($i==1&&$cont>=1){
+						echo "$ip2.";
+					}else if($i==2&&$cont>=2){
+						echo "$ip3.";
+					}else if($i==3&&$cont>=3){
+						echo "$ip4 <br/>";
+					}else{
+						echo base_convert($mascs[8],2,10).".";
+					}
+					$cont--;
+					$masc-=$masc;
+				}else{
+					echo base_convert($mascs[8],2,10).".";
+					$masc=0;
+				}
+			}else{
+				echo base_convert($mascs[8],2,10).".";
+				$masc=0;
+			}
+		}
+		echo "<br/>";
+	}
+	function rangoRed($masc,$ip1,$ip2,$ip3,$ip4){
+		$cont;
+		$mascs=array("00000000","10000000","11000000","11100000","11110000","11111000","11111100","11111110","11111111");
+		if($masc%8==0){
+			$cont=$masc/8;
+		}else if($masc/8>=1){
+			$cont=$masc/8;
+		}else {
+			$cont=0;
+		}
+		if($cont<=1||$cont>4){
+				echo "$ip1.".base_convert($mascs[0],2,10).".".base_convert($mascs[0],2,10).".".base_convert($mascs[1],2,10);
+		} else{
+			for($i=1;$i<5;$i++){
+				if($cont>=1&&$cont<5){
+					if($i==1&&$cont>=1){
+						echo "$ip1.";
+					}else if($i==2&&$cont>=2){
+						echo "$ip2.";
+					}else if($i==3&&$cont>=3){
+						echo "$ip3.";
+					}else if($i==4&&$cont>=4){
+						echo "$ip4";
+					}else if($i==4){
+						echo (base_convert($mascs[0],2,10)+1);
+					}else{
+						echo base_convert($mascs[0],2,10).".";
+					}
+				}
+			}
+		}
+		echo " a ";
+		$cont=$masc/8;
+		
+		for($i=0;$i<4;$i++){
+			if($masc>0&&$masc%8==0){
+				if($masc%8==0){
+					if($i==0&&$cont>=0){
+						echo "$ip1.";
+					}else if($i==1&&$cont>=1){
+						echo "$ip2.";
+					}else if($i==2&&$cont>=2){
+						echo "$ip3.";
+					}else if($i==3&&$cont>=3){
+						echo "$ip4 <br/>";
+					}else{
+						echo base_convert($mascs[8],2,10).".";
+					}
+					$cont--;
+					$masc-=8;
+				}else  if($masc/8>=1){
+					if($i==0&&$cont>=0){
+						echo "$ip1.";
+					}else if($i==1&&$cont>=1){
+						echo "$ip2.";
+					}else if($i==2&&$cont>=2){
+						echo "$ip3.";
+					}else if($i==3&&$cont>=3){
+						echo "$ip4 <br/>";
+					}else{
+						echo base_convert($mascs[8],2,10).".";
+					}
+					$cont--;
+					$masc-=$masc;
+				}else{
+					echo base_convert($mascs[8],2,10).".";
+					$masc=0;
+				}
+			}else{
+					if($i==3)
+						echo (base_convert($mascs[8],2,10)-1);
+					else
+						echo base_convert($mascs[8],2,10).".";
+				
+				$masc=0;
+			}
+		}
+		echo "<br/>";
+	}
+	
+	echo $ip1.".".$ip2.".".$ip3.".".$ip4."<br/>";
 	echo "Direccion de red ";
 	echo direccionRed($masc,$ip1,$ip2,$ip3,$ip4)."<br/>";
 	echo "Mascara de red ";
 	echo direccionMasc($masc)."<br/>";
+	echo "Direccion de broadcast ";
+	echo direccionBroadcast($masc,$ip1,$ip2,$ip3,$ip4)."<br/>";
+	echo "Rango de red desde ";
+	echo rangoRed($masc,$ip1,$ip2,$ip3,$ip4)."<br/>";
+	echo "La Ip y mascara $ipmasc<br/>";
 	echo "La Ip $ip<br/>";
 	echo "La mascara es $masc <br/>";
 	echo "La direccion de red <br/>";
