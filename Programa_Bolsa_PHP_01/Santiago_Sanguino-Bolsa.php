@@ -1,7 +1,13 @@
-<HTML>
-<HEAD><TITLE> EJ1 – Aplicar conocimientos</TITLE></HEAD>
-<BODY>
 <?php
+echo "
+<HTML>
+<HEAD>
+	<TITLE> EJ1 – Aplicar conocimientos</TITLE>
+	<meta charset=\"utf-8\" />
+	<meta name=\"author\" content=\"Santiago Sanguino\" />
+</HEAD>
+<BODY>"
+	
 	$indice=array("Nombre de empresa","Importe precio","Variacion %","Variacion en dinero del %","Importe del mes","Importe total");
 	/*$empres1=array("Inditex",31730,"-0.28%","-0.09€",482599,15253653.75);
 	$empres2=array("Repsol",20450,"3.28%","2.59€",20304,4231477.43);
@@ -40,6 +46,7 @@
 	}
 	
 	
-?>
+echo "
 </BODY>
-</HTML>
+</HTML>"
+?>
