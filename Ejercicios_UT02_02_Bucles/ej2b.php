@@ -2,7 +2,11 @@
 
 echo "	
 <HTML> 
-	<HEAD><TITLE> EJ2B – Conversor decimal a cualquier base</TITLE></HEAD>
+<HEAD>
+	<TITLE> EJ2B – Conversor decimal a cualquier base</TITLE>
+	<meta charset=\"utf-8\" />
+	<meta name=\"author\" content=\"Santiago Sanguino\" />
+</HEAD>
 <BODY>";
 
 
@@ -14,11 +18,23 @@ echo "
 		if($numAux%$base==0){
 			$result=$numAux%$base.$result;
 			$numAux/=$base;
-			//echo "El ".$result." o el ".$numAux."<br/>";
 		}else {
-			$result=$numAux%$base.$result;
+			if($numAux%$base==10){
+				$result="A".$result;
+			}else if($numAux%$base==11){
+				$result="B".$result;
+			}else if($numAux%$base==12){
+				$result="C".$result;
+			}else if($numAux%$base==13){
+				$result="D".$result;
+			}else if($numAux%$base==14){
+				$result="E".$result;
+			}else if($numAux%$base==15){
+				$result="F".$result;
+			}else {
+				$result=$numAux%$base.$result;
+			}
 			$numAux/=$base;
-			//echo "El ".$result." o el ".$numAux."<br/>";
 		}
 	}
 	echo "<br/> El resultado es ".$result."<br/>";
