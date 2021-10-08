@@ -59,7 +59,7 @@ echo "
 				$j=0;
 			}
 			
-			if($i==4){
+			if($i==count($jugadores)){
 				$complet=true;
 			}
 		}
