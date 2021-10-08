@@ -8,7 +8,7 @@ echo "
 </head>
 <BODY>
 <h2> Reto 1 Bingo </h2>";
-	$cartonJuega=2;
+	$cartones=3;
 	$arrayJugador1=array();
 	$arrayJugador2=array();
 	$arrayJugador3=array();
@@ -54,7 +54,7 @@ echo "
 			echo "<br/>";/**/
 			$j++;
 			
-			if($j==3){
+			if($j==$cartones){
 				$i++;
 				$j=0;
 			}
