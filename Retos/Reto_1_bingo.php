@@ -66,7 +66,46 @@ echo "
 				echo "<br/>";
 			}
 		}
+	echo "<h4>Sacar bolas del bombo</h4>";
+	$esbingo=false;
+	$cont=60;
+	$bombo=((bool)array());
+	for($i=1;$i<($cont+1);$i++){
+		$bombo[$i]=false;
+	}
+	$bombo[0]=true;
+	$ganador="";
+	while($cont>0&&!$esbingo){
+		$numero=rand(1,60);
+		if(!$bombo[$numero]){
+			$bombo[$numero]=true;
+			echo "<img src=\"./DWES_Reto1_Bingo_ImagesBolas/".$numero.".PNG\"/><br/>";
+			echo "<br/>";
+			for($i=0;$i<count($jugadores);$i++) {
+				for($j=0;$j<count($jugadores[$i]);$j++) {
+					$k=0;
+					$esencontrado=false;
+					while($k<(count($jugadores[$i][$j])-1)&&!$esencontrado) {
+						if($jugadores[$i][$j][$k]==$numero) {
+							//echo "El jugador ".($i+1)." tiene el numero ".$numero." y lleva ".$jugadores[$i][$j][$maxCarton]." numeros<br/>";
+							$esencontrado=true;
+							$jugadores[$i][$j][$maxCarton]++;
+							if($jugadores[$i][$j][$maxCarton]==15){
+								$esbingo=true;
+								$ganador="El jugador ".($i+1)." ha ganado con el carton ".$j.".";
+							}
+						}
+						$k++;
+					}
+				}
+			}
+			$cont--;
+		}
+	}
 	
+	echo "<br/>";
+	echo $ganador;
+	echo "<br/>";
 echo "
 </BODY>
 </html>";
