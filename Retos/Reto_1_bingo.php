@@ -92,7 +92,7 @@ echo "
 							$jugadores[$i][$j][$maxCarton]++;
 							if($jugadores[$i][$j][$maxCarton]==15){
 								$esbingo=true;
-								$ganador="El jugador ".($i+1)." ha ganado con el carton ".$j.".";
+								$ganador="El jugador ".($i+1)." ha ganado con el carton ".($j+1).".";
 							}
 						}
 						$k++;
