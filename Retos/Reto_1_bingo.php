@@ -30,7 +30,11 @@ echo "
 			$arrayCarton=array();
 			while(count($arrayCarton)<$maxCarton){
 				$numero=rand(1,60);
-				$numValido=true;
+				if(!in_array($numero,$arrayCarton)){
+					$arrayCarton[$k]=$numero;
+					$k++;
+				}
+				/*$numValido=true;
 				if($k<count($arrayCarton)){
 					while($k<count($arrayCarton)&&$numValido){
 						if($arrayCarton[$k]==$numero){
@@ -42,6 +46,9 @@ echo "
 				if($numValido){
 					$arrayCarton[$k]=$numero;
 					$k++;
+				}*/
+				if(count($arrayCarton)==$maxCarton){
+					$arrayCarton[$maxCarton]=0;
 				}
 			}
 			$jugadores[$i][$j]=$arrayCarton;
