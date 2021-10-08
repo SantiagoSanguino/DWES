@@ -45,13 +45,7 @@ echo "
 				}
 			}
 			$jugadores[$i][$j]=$arrayCarton;
-			/*
-			for($k=0;$k<count($jugadores[$i][$j]);$k++){
-				echo $jugadores[$i][$j][$k]." | ";
-			}
-			echo "<br/>";
-			echo $i."_".$j;
-			echo "<br/>";/**/
+			
 			$j++;
 			
 			if($j==$cartones){
