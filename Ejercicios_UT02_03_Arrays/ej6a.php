@@ -30,7 +30,9 @@ echo "
 	//Muestra el array invertido
 	for($i=(count($arrayAsignaturas1)-1);$i>=0;$i--){
 		for($j=(count($arrayAsignaturas1[$i])-1);$j>=0;$j--){
-			echo $arrayAsignaturas1[$i][$j]." | ";
+			if(!empty($arrayAsignaturas1[$i][$j])){
+				echo $arrayAsignaturas1[$i][$j]." | ";
+			}
 		}
 	}
 	echo "<h4>Array merge</h4>";
@@ -42,7 +44,7 @@ echo "
 	}
 	//Muestra el array invertido
 	for($i=count($arrayAsignaturas2);$i>=0;$i--){
-		if($arrayAsignaturas2[$i]!=null)
+		if(!empty($arrayAsignaturas2[$i]))
 			echo $arrayAsignaturas2[$i]." | ";
 	}
 	echo "<h4>Array push</h4>";
@@ -65,7 +67,9 @@ echo "
 	}
 	//Muestra el array invertido
 	for($i=count($arrayAsignaturas3);$i>=0;$i--){
-		if($arrayAsignaturas3[$i]!=null){
+		//Uso la function empty, para comprobar si esta vacio o no esa celda
+		// Dado que comprobar si es null o esta vacia da error
+		if(!empty($arrayAsignaturas3[$i])){
 			echo $arrayAsignaturas3[$i]." | ";
 		}
 	}
