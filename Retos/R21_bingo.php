@@ -5,10 +5,22 @@ echo "
 	<title> Reto 1 Bingo</title> 
 	<meta charset=\"utf-8\" />
 	<meta name=\"author\" content=\"Santiago Sanguino\" />
+	<style type=\"text/css\">
+		table,td,tr {
+			border: 1px gray solid;
+			text-align: center;
+		}
+		table {
+			border-collapse: collapse;
+		}
+	</style>
 </head>
 <BODY>
 <h2> Reto 1 Bingo </h2>";
-
+	//Actualizo el bingo para contener funciones
+	function generarCarton(){
+		
+	}
 	//Nombre de la carpeta que tiene las imagenes, por si hiciera falta cambiarla
 	$carptImg="./DWES_Reto1_Bingo_ImagesBolas/";
 	$formatoImg=".PNG";
@@ -74,13 +86,15 @@ echo "
 	//Muestra los arrays de los jugadores y sus cartones
 	for($i=0;$i<count($jugadores);$i++){
 		echo "El jugador ".($i+1)." tiene los siguientes cartones<br/>";
+		echo "<table>";
 		for($j=0;$j<count($jugadores[$i]);$j++){
-			for($k=0;$k<count($jugadores[$i][$j]);$k++){
-				echo $jugadores[$i][$j][$k]." | ";
+			echo "<tr>";
+			for($k=0;$k<(count($jugadores[$i][$j])-1);$k++){
+				echo "<td>".$jugadores[$i][$j][$k]."</td>";
 			}
-			echo "<br/>";
+			echo "</tr>";
 		}
-		echo "<br/>";
+		echo "</table><br/>";
 	}
 	
 	echo "<h4>Sacar bolas del bombo</h4>";
