@@ -21,10 +21,10 @@ echo "
 	function genNumAle(){
 		return rand(1,60);
 	}
-	function genCarton(&$arrayCarton,$maximo){
+	function genCarton(&$arrayCarton,&$maxCarton){
 		$i=0;
 		//Codigo actual sin boolean
-		while(count($arrayCarton)<$maximo){
+		while(count($arrayCarton)<$maxCarton){
 			//Se genera el numero de la bola
 			$numero=genNumAle();
 			//Comprobacion de que no este la bola en el array
@@ -36,8 +36,8 @@ echo "
 			//Cuando termina de rellenase el array del carton
 			//Se le agrega en el ultimo valor un el contador de bolas que han salido que empezara en 0
 			//Cambiable a un array boolean
-			if(count($arrayCarton)==$maximo){
-				$arrayCarton[$maximo]=0;
+			if(count($arrayCarton)==$maxCarton){
+				$arrayCarton[$maxCarton]=0;
 			}
 			
 		}/**/
@@ -62,29 +62,34 @@ echo "
 		/**/
 		return $arrayCarton;
 	}
-	function genArrayBoolean($tamaño){
+	function genArrayBoolean($maxCarton){
 		$esarray=array();
-		for($i=0;$i<$tamaño;$i++){
+		for($i=0;$i<$maxCarton;$i++){
 			$esarray[$i]=false;
 		}
 		return $esarray;
 	}
-	function mostrarCartones($array){
+	function mostrarCartones($array,&$maxCarton){
 		//Creo una tabla por cada jugador
 		echo "<table>";
 		foreach($array as $carton){
-			echo "<tr>";
-			foreach($carton as $valor){
-				if($valor!=0)
-					echo "<td>".$valor."</td>";
-			}
-			echo "</tr>";
+			mostrarCarton($carton,$maxCarton);
 		}
 		echo "</table><br/>";
 	}
+	function mostrarCarton($carton,&$maxCarton){
+		echo "<tr>";
+		foreach($carton as $valor){
+			if($valor!=$carton[$maxCarton])
+				echo "<td>".$valor."</td>";
+		}
+		echo "</tr>";
+	}
+	//Esta funcion era por si creaba un array boolean
 	function contarBoolean($array){
 		$cont=0;
-		for($i=0;$i<count($array);$i++){
+		$contArray=count($array);
+		for($i=0;$i<$contArray;$i++){
 			if($array[$i])
 				$cont++;
 		}
@@ -125,7 +130,7 @@ echo "
 	//Muestra los arrays de los jugadores y sus cartones
 	for($i=0;$i<count($jugadores);$i++){
 		echo "El jugador ".($i+1)." tiene los siguientes cartones<br/>";
-		echo mostrarCartones($jugadores[$i]);
+		echo mostrarCartones($jugadores[$i],$maxCarton);
 	}
 
 	echo "<h4>Sacar bolas del bombo</h4>";
