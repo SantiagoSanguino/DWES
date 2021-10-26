@@ -63,7 +63,7 @@ echo "
 	echo "<h4>Sacar bolas del bombo</h4>";
 	//Inicializo el control para saber las bolas que han salido 
 	$esbingo=false;
-	$cont=60;
+	$cont=$numAle;
 	$bombo=((bool)array());
 	$bombo=genArrayBoolean($cont+1);
 	$bombo[0]=true;
