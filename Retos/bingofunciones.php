@@ -1,14 +1,15 @@
 <?php
 	//Actualizo el bingo para contener funciones
-	function genNumAle(){
-		return rand(1,60);
+	
+	function genNumAle($numAle){
+		return rand(1,$numAle);
 	}
-	function genCarton(&$arrayCarton,&$maxCarton){
+	function genCarton(&$arrayCarton,&$maxCarton,$numAle){
 		$i=0;
 		//Codigo actual sin boolean
 		while(count($arrayCarton)<$maxCarton){
 			//Se genera el numero de la bola
-			$numero=genNumAle();
+			$numero=genNumAle($numAle);
 			//Comprobacion de que no este la bola en el array
 			if(!in_array($numero,$arrayCarton)){
 				//Despues de comprobar que no esta repetida la bola, se añade al carton
@@ -33,7 +34,7 @@
 		$arrayCarton[$boolean]=genArrayBoolean($maximo);
 		while(count($arrayCarton[$num])<$maximo){
 			//Se genera el numero de la bola
-			$numero=genNumAle();
+			$numero=genNumAle($numAle);
 			//Comprobacion de que no este la bola en el array
 			if(!in_array($numero,$arrayCarton[$num])){
 				//Despues de comprobar que no esta repetida la bola, se añade al carton

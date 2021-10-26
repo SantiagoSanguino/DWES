@@ -19,7 +19,8 @@ echo "
 <h2> Reto 1 Bingo </h2>";
 	// Paso las funciones por fichero
 	require 'bingofunciones.php';
-	
+	//Numero maximo de numero de las bolas a generar
+	$numAle=60;
 	//Nombre de la carpeta que tiene las imagenes, por si hiciera falta cambiarla
 	$carptImg="./DWES_Reto1_Bingo_ImagesBolas/";
 	$formatoImg=".PNG";
@@ -30,6 +31,7 @@ echo "
 	$maxJuga=4;
 	$maxCarton=15;
 	
+	
 	echo "<h4>Generando cartones</h4>";
 	$complet=false;
 	$i=0;
@@ -38,7 +40,7 @@ echo "
 		$k=0;
 		// Se añade el carton al jugador
 		$arrayCarton=array();
-		$arrayCarton=genCarton($arrayCarton,$maxCarton);
+		$arrayCarton=genCarton($arrayCarton,$maxCarton,$numAle);
 		$jugadores[$i][$j]=$arrayCarton;
 		$j++;
 		//En el caso de que ya tenga los cartones el jugador, paso al siguiente
@@ -69,7 +71,7 @@ echo "
 	//Empieza el bucle para sacar bolas del bombo
 	while($cont>0&&!$esbingo){
 		//Genero un numero
-		$numero=genNumAle();
+		$numero=genNumAle($numAle);
 		//Compruebo que no este repetido el valor en el array $bombo
 		if(!$bombo[$numero]){
 			//Al no estar repetido, lo defino como que ya ha aparecido
