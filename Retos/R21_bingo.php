@@ -52,7 +52,8 @@ echo "
 		}
 	}
 	//Muestra los arrays de los jugadores y sus cartones
-	for($i=0;$i<count($jugadores);$i++){
+	
+	for($i=0;$i<$maxJuga;$i++){
 		echo "El jugador ".($i+1)." tiene los siguientes cartones<br/>";
 		echo mostrarCartones($jugadores[$i],$maxCarton);
 	}
@@ -75,13 +76,14 @@ echo "
 			$bombo[$numero]=true;
 			//Añado la imagen de la bola que ha salido y la muestro en pantalla
 			echo "<img src=\"".$carptImg.$numero.$formatoImg."\"/><br/>";
-			for($i=0;$i<count($jugadores);$i++) {
-				for($j=0;$j<count($jugadores[$i]);$j++) {
+			for($i=0;$i<$maxJuga;$i++) {
+				for($j=0;$j<$cartones;$j++) {
 					$k=0;
 					//Variable booleana que define si se encuentra la bola en el carton
 					//En el caso de que se encuentre se cambia a true y para el bucle
 					$esencontrado=false;
-					while($k<(count($jugadores[$i][$j])-1)&&!$esencontrado) {
+					$contCarton=count($jugadores[$i][$j]);
+					while($k<($contCarton-1)&&!$esencontrado) {
 						if($jugadores[$i][$j][$k]==$numero) {
 						//echo "El jugador ".($i+1)." tiene el numero ".$numero." y lleva ".$jugadores[$i][$j][$maxCarton]." numeros<br/>";
 							$esencontrado=true;
