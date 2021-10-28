@@ -11,11 +11,11 @@
 		$localidad=$_POST["localidad"];
 		
 		fwrite($file,"Nombre:".$nombre." Apellido1:".$apellido1." Apellido2:".$apellido2." Fecha Nacimiento:".$fechaBorn." Localidad:".$localidad." \n");
-		/*fwrite($file," Nombre: ".$nombre);
-		fwrite($file," Apellido1: ".$apellido1);
-		fwrite($file," Apellido2: ".$apellido2);
-		fwrite($file," Fecha Nacimiento: ".$fechaBorn);
-		fwrite($file," Localidad: ".$localidad);
+		/*fwrite($file," Nombre: ".$nombre,40);
+		fwrite($file," Apellido1: ".$apellido1,40);
+		fwrite($file," Apellido2: ".$apellido2,41);
+		fwrite($file," Fecha Nacimiento: ".$fechaBorn,9);
+		fwrite($file," Localidad: ".$localidad,26);
 		fwrite($file," \n");/**/
 	}
 	
