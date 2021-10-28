@@ -9,16 +9,17 @@
 		$fechaBorn=$_POST["fechaBorn"];
 		$localidad=$_POST["localidad"];
 		
-		fwrite($file," Nombre: ".$nombre);
-		fwrite($file," Apellido1: ".$apellido1,);
-		fwrite($file," Apellido2: ".$apellido2,);
+		fwrite($file,"Nombre:".$nombre." Apellido1:".$apellido1." Apellido2:".$apellido2." Fecha Nacimiento:".$fechaBorn." Localidad:".$localidad." \n");
+		/*fwrite($file," Nombre: ".$nombre);
+		fwrite($file," Apellido1: ".$apellido1);
+		fwrite($file," Apellido2: ".$apellido2);
 		fwrite($file," Fecha Nacimiento: ".$fechaBorn);
 		fwrite($file," Localidad: ".$localidad);
-		fwrite($file," \n");
+		fwrite($file," \n");/**/
 	}
 	
 	/* Formulario */
-	do {
+	if(empty($_POST["continuar"])||$_POST["continuar"]!="no"){
 		echo "<form method=\"post\" action=\"".htmlspecialchars($_SERVER["PHP_SELF"])."\">
 				<label for=\"nombre\">Nombre</label></br>
 				<input type=\"text\" name=\"nombre\" /> </br>
@@ -37,7 +38,6 @@
 				<input type=\"submit\" name=\"Escribir\" value=\"Escribir\">
 				<input type=\"reset\" name=\"borrar\" value=\"Borrar\"></br>
 			</form>";
-	}while(($_POST["continuar"]=="no"));
-	
+	}
 	fclose($file);
 ?>
