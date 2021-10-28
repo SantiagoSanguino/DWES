@@ -1,6 +1,7 @@
 <?php
 	/* Apertura o creacion del fichero con el puntero al comienzo para escribir */
-	$file=fopen("alumnos1.txt","a+");
+	$carpeta="../../files/";
+	$file=fopen($carpeta."alumnos1.txt","a+");
 	
 	if(!empty($_POST["nombre"])&&!empty($_POST["apellido1"])&&!empty($_POST["apellido2"])&&!empty($_POST["fechaBorn"])&&!empty($_POST["localidad"])){
 		$nombre=$_POST["nombre"];
