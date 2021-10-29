@@ -2,11 +2,11 @@
 	include "fcomprobarfecha.php";
 	/* Apertura o creacion del fichero con el puntero al comienzo para escribir */
 	$carpeta="../../files/";
-	$fichero="alumnos1.txt";
+	$fichero="alumnos2.txt";
 	
 	$file=fopen($carpeta.$fichero,"a+");
-	if(!empty($_POST["nombre"])&&!empty($_POST["apellido1"])&&!empty($_POST["apellido2"])&&!empty($_POST["fechaBorn"])&&!empty($_POST["localidad"]))
-	{
+	
+	if(!empty($_POST["nombre"])&&!empty($_POST["apellido1"])&&!empty($_POST["apellido2"])&&!empty($_POST["fechaBorn"])&&!empty($_POST["localidad"])){
 		$nombre=$_POST["nombre"];
 		$apellido1=$_POST["apellido1"];
 		$apellido2=$_POST["apellido2"];
@@ -14,23 +14,11 @@
 		$localidad=$_POST["localidad"];
 		$esfecha=comprobarFecha($fechaBorn);
 		if($esfecha) {
-			//str_pad()
-			//El pad_string de " " es omitible ya que por defecto seria con espacios
-			fwrite($file,str_pad($nombre,40," ").str_pad($apellido1,41," ").str_pad($apellido2,42," ").
-			str_pad($fechaBorn,10," ").str_pad($localidad,26," ")." \n");
-			// Tambien estarian las opciones str_pad_left y str_pad_both
+			fwrite($file,str_pad($nombre,40,"#").str_pad($apellido1,41,"#").str_pad($apellido2,42,"#").
+			str_pad($fechaBorn,10,"#").str_pad($localidad,26,"#")."\n");
 		}else {
 			echo "No es una fecha valida";
 		}
-		
-		/* Codigo antiguo
-		$espacios="                                                                                ";
-		fwrite($file,$nombre.$espacios,40);
-		fwrite($file,$apellido1.$espacios,41);
-		fwrite($file,$apellido2.$espacios,42);
-		fwrite($file,$fechaBorn.$espacios,10);
-		fwrite($file,$localidad.$espacios,26);
-		fwrite($file," \n");/**/
 	}
 	fclose($file);
 	
