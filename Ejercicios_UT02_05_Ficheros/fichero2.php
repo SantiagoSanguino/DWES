@@ -23,7 +23,7 @@
 	fclose($file);
 	
 	/* Formulario */
-	if(empty($_POST["continuar"])||$_POST["continuar"]!="no"){
+	if(empty($_POST["continuar"])||$_POST["continuar"]!="no") {
 		echo "<form method=\"post\" action=\"".htmlspecialchars($_SERVER["PHP_SELF"])."\">
 				<label for=\"nombre\">Nombre</label></br>
 				<input type=\"text\" name=\"nombre\" /> </br>

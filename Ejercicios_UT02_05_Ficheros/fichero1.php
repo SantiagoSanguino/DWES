@@ -1,4 +1,6 @@
 <?php
+	/* Una comprobacion de servidor para la fecha seria hacer date(d/m/Y)
+		Asi la validaria sin necesidad de una funcion*/
 	include "fcomprobarfecha.php";
 	/* Apertura o creacion del fichero con el puntero al comienzo para escribir */
 	$carpeta="../../files/";
@@ -17,7 +19,7 @@
 			//str_pad()
 			//El pad_string de " " es omitible ya que por defecto seria con espacios
 			fwrite($file,str_pad($nombre,40," ").str_pad($apellido1,41," ").str_pad($apellido2,42," ").
-			str_pad($fechaBorn,10," ").str_pad($localidad,26," ")." \n");
+			str_pad($fechaBorn,10," ").str_pad($localidad,26," ")."\n");
 			// Tambien estarian las opciones str_pad_left y str_pad_both
 		}else {
 			echo "No es una fecha valida";
@@ -35,7 +37,7 @@
 	fclose($file);
 	
 	/* Formulario */
-	if(empty($_POST["continuar"])||$_POST["continuar"]!="no"){
+	if(empty($_POST["continuar"])||$_POST["continuar"]!="no") {
 		echo "<form method=\"post\" action=\"".htmlspecialchars($_SERVER["PHP_SELF"])."\">
 				<label for=\"nombre\">Nombre</label></br>
 				<input type=\"text\" name=\"nombre\" /> </br>

@@ -1,12 +1,13 @@
 <?php
+	/* Transformo la fecha solo si el caracter de division es /, en el caso de que hubiera otro no iria*/
 	function transformarFecha(&$fecha) {
 		$fecha=strchr($fecha,"/",false);
 		$fecha=substr($fecha,1);
 	}
-	function buscar($array,$dato){
+	function buscarDato($array,$dato) {
 		$arraylength=count($array);
 		for($i=0;$i<$arraylength;$i++){
-			if($array[$i]==$dato){
+			if($array[$i]==$dato) {
 				return true;
 			}
 		}
