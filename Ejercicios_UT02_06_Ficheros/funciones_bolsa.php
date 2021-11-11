@@ -58,15 +58,17 @@
 		$file=file($fichero);
 		$buscar=strtoupper($buscar);
 		/*Estos son los puntos donde estan los espacios */
-		$espacios=[23,8,8,9,12,9,10,13,9,8];
+		$espacios=[23,8,8,8,11,10,10,12,10,8];
 		//echo $buscar."<br/>";
 		$dato="";
 		foreach($file as $valor => $resto) {
-			if(strcasecmp(strstr($buscar," ",true),strstr($resto," ",true))==0){
+			if(strcasecmp($buscar,strstr($resto," ",true))==0){
+				$dato=$dato.$valor;
+			}else if(strcasecmp(strstr($buscar," ",true),strstr($resto," ",true))==0){
 				$dato=$dato.$valor;
 			}
 		}
-		//echo $dato."</br>";
+		echo $dato."</br>";
 		$i=0;
 		$suma=0;
 		$cont=count($espacios);
