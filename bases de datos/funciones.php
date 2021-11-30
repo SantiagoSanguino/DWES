@@ -67,8 +67,6 @@
 		conexionCloseProce($connect);/**/
 	}
 	
-	//Creo la clase para tener acceso a un recurso externo al programa
-	
 	function sacarOpcionesDeprtPdo($user,$pass,$base) {
 		$table="departamento";
 		$nombre="nombre_d";
