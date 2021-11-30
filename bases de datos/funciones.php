@@ -77,7 +77,7 @@
 			$sql=$connect->prepare("select nombre_d from $table");
 			$sql->execute();
 			echo "<select name=\"".$table."\" id=\"".$table."\">";
-			foreach(new sqlRows(new RecursiveArrayIterator($sql->fetchAll(PDO::FETCH_ASSOC))) as $l=>$valor) {
+			foreach(new sqlRows(new RecursiveArrayIterator($sql->fetchAll(PDO::FETCH_ASSOC))) as $valor) {
 				echo "<option value=\"".$valor."\">".$valor."</option>";
 			} 
 			echo "</select>";/**/
@@ -93,7 +93,7 @@
 			$sql=$connect->prepare("select dni from $table");
 			$sql->execute();
 			echo "<select name=\"".$table."\" id=\"".$table."\">";
-			foreach(new sqlRows(new RecursiveArrayIterator($sql->fetchAll(PDO::FETCH_ASSOC))) as $l=>$valor) {
+			foreach(new sqlRows(new RecursiveArrayIterator($sql->fetchAll(PDO::FETCH_ASSOC))) as $valor) {
 				echo "<option value=\"".$valor."\">".$valor."</option>";
 			} 
 			echo "</select>";/**/
