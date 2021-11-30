@@ -36,7 +36,7 @@
 			<p>Nombre empleado: <input type='text' name='nombre_e'/></br>
 			<p>Fecha nacimiento: <input type='text' name='fecha_nac' /></br>
 			<p>Nombre departamento: ";
-					sacarOpcionesDeprt($usuario,$password,$basedatos);
+				sacarOpcionesDeprtPdo($usuario,$password,$basedatos);
 		echo "</br></br>
 				<input type=\"submit\" value=\"Alta\" name=\"alta\" />
 			</form> 

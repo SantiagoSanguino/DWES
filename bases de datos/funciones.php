@@ -1,4 +1,5 @@
 <?php
+
 	function altaDeprt($user,$pass,$base,$tabla,$dato) {
 		$connect=conexionOpenProce($user,$pass,$base);
 		
@@ -48,24 +49,58 @@
 		}
 		conexionCloseProce($connect);/**/
 	}
-	function sacarOpcionesDeprtPdo($user,$pass,$base) {
-		class claseExtendida extends RecursiveIteratorIterator {}
-		$table="departamento";
-		try {
-			$connect=conexionOpenPdo($user,$pass,$base);
-			$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql=$connect->prepare("select nombre_d from departamento");
-			$sql->execute();
-			$result= $sql->setFetchMode(PDO::FETCH_ASSOC);
+	function sacarOpcionesEmpDni($user,$pass,$base) {
+		
+		$table="empleado";
+		$connect=conexionOpenProce($user,$pass,$base);
+		$sql="select dni from $table";
+		$result= mysqli_query($connect,$sql);
+		if(mysqli_num_rows($result)>0) {
 			echo "<select name=\"".$table."\" id=\"".$table."\">";
-			foreach(new claseExtendida(new RecursiveArrayIterator($sql->fetchAll())) as $k=>$valor) {
+			while($row = mysqli_fetch_assoc($result)) {
+				echo "<option value=\"".$row["dni"]."\">".$row["dni"]."</option>";
+			}
+			echo "</select>";
+		}else {
+			echo "No hay $table </br>";
+		}
+		conexionCloseProce($connect);/**/
+	}
+	
+	//Creo la clase para tener acceso a un recurso externo al programa
+	class sqlRows extends RecursiveIteratorIterator {}
+	
+	function sacarOpcionesDeprtPdo($user,$pass,$base) {
+		$table="departamento";
+		$connect=conexionOpenPdo($user,$pass,$base);
+		try {
+			$sql=$connect->prepare("select nombre_d from $table");
+			$sql->execute();
+			echo "<select name=\"".$table."\" id=\"".$table."\">";
+			foreach(new sqlRows(new RecursiveArrayIterator($sql->fetchAll(PDO::FETCH_ASSOC))) as $l=>$valor) {
 				echo "<option value=\"".$valor."\">".$valor."</option>";
 			} 
-			echo "</select>";
+			echo "</select>";/**/
 		}catch(PDOException $e) {
-			echo "Error: " . $e->getMessage();
-			echo "No hay departamentos </br>";
+			echo "No hay $table </br>";
 		}
 		conexionClosePdo($connect);/**/
 	}
+	function sacarOpcionesEmpDniPdo($user,$pass,$base) {
+		$table="empleado";
+		$connect=conexionOpenPdo($user,$pass,$base);
+		try {
+			$sql=$connect->prepare("select dni from $table");
+			$sql->execute();
+			echo "<select name=\"".$table."\" id=\"".$table."\">";
+			foreach(new sqlRows(new RecursiveArrayIterator($sql->fetchAll(PDO::FETCH_ASSOC))) as $l=>$valor) {
+				echo "<option value=\"".$valor."\">".$valor."</option>";
+			} 
+			echo "</select>";/**/
+		}catch(PDOException $e) {
+			echo "No hay $table </br>";
+		}
+		conexionClosePdo($connect);/**/
+	}
+	
 ?>
