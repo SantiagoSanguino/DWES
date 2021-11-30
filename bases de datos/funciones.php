@@ -33,6 +33,7 @@
 		}
 		conexionCloseProce($connect);/**/
 	}
+	//Funciones Procedure
 	function sacarOpcionesDeprt($user,$pass,$base) {
 		$table="departamento";
 		$connect=conexionOpenProce($user,$pass,$base);
@@ -66,7 +67,7 @@
 		}
 		conexionCloseProce($connect);/**/
 	}
-	
+	// Funciones PDO
 	function sacarOpcionesDeprtPdo($user,$pass,$base) {
 		$table="departamento";
 		$nombre="nombre_d";
