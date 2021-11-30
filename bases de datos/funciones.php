@@ -68,17 +68,18 @@
 	}
 	
 	//Creo la clase para tener acceso a un recurso externo al programa
-	class sqlRows extends RecursiveIteratorIterator {}
 	
 	function sacarOpcionesDeprtPdo($user,$pass,$base) {
 		$table="departamento";
+		$nombre="nombre_d";
 		$connect=conexionOpenPdo($user,$pass,$base);
 		try {
-			$sql=$connect->prepare("select nombre_d from $table");
+			$sql=$connect->prepare("select $nombre from $table");
 			$sql->execute();
 			echo "<select name=\"".$table."\" id=\"".$table."\">";
-			foreach(new sqlRows(new RecursiveArrayIterator($sql->fetchAll(PDO::FETCH_ASSOC))) as $valor) {
-				echo "<option value=\"".$valor."\">".$valor."</option>";
+			
+			foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $valor) {
+				echo "<option value=\"".$valor["$nombre"]."\">".$valor["$nombre"]."</option>";
 			} 
 			echo "</select>";/**/
 		}catch(PDOException $e) {
@@ -88,13 +89,14 @@
 	}
 	function sacarOpcionesEmpDniPdo($user,$pass,$base) {
 		$table="empleado";
+		$nombre="dni";
 		$connect=conexionOpenPdo($user,$pass,$base);
 		try {
-			$sql=$connect->prepare("select dni from $table");
+			$sql=$connect->prepare("select $nombre from $table");
 			$sql->execute();
 			echo "<select name=\"".$table."\" id=\"".$table."\">";
-			foreach(new sqlRows(new RecursiveArrayIterator($sql->fetchAll(PDO::FETCH_ASSOC))) as $valor) {
-				echo "<option value=\"".$valor."\">".$valor."</option>";
+			foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $valor) {
+				echo "<option value=\"".$valor["$nombre"]."\">".$valor["$nombre"]."</option>";
 			} 
 			echo "</select>";/**/
 		}catch(PDOException $e) {
