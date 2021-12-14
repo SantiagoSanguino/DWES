@@ -9,24 +9,27 @@
 	function conexionClosePdo($connect) {  // Cerrar conexion mysql PDO
 		$connect=null;
 	}
-	/*Muestra los dni de los empleados en una select con option */
-	function sacarOpcionesEmpDniPdo($connect) {
+	function sacarOpcionesDeprtPdo($connect) {
 		try {
-			$sql=$connect->prepare("select dni from empleado");
+			$sql=$connect->prepare("select nombre_dpto from departamento");
 			$sql->execute();
 		}catch(PDOException $e) {
-			return "No hay empleado </br>";
+			return "No hay departamento </br>";
 		}
 		return $sql;
 	}
-	
-	function empinfosal($connect,$dni) {
-		$sql=$connect->prepare("select sum(salario) as salario,empleado.nombre from empleado where empleado.dni=$dni group by empleado.salario");
-		$sql->execute();
-		$mensaje="";
-		foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $valor) {
-			$mensaje=$valor["nombre"]." ".$valor["salario"]."€<br />";
+	function empinfosal($connect,$departamento) {
+		try {
+			$sql=$connect->prepare("select sum(salario) as salario,departamento.nombre_dpto as nombre_dpto from empleado,departamento,emple_depart where departamento.cod_dpto=emple_depart.cod_dpto and empleado.dni=emple_depart.dni group by departamento.nombre_dpto");
+			$sql->execute();
+			$mensaje="";
+			foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $valor) {
+				$mensaje=$mensaje.$valor["nombre_dpto"]." ".$valor["salario"]."€<br />";
+			}
+		}catch(PDOException $e) {
+			return "No hay departamento </br>";
 		}
 		return $mensaje;
+		
 	}
 ?>

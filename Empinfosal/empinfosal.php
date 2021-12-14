@@ -16,12 +16,12 @@
 		</head>
 		<body>
 			<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?> " >
-			<p>DNI: 
-			<select name="dni" id="dni"> 
+			<p>Departamento: 
+			<select name="departamento" id="departamento"> 
 			<?php
-				$consulta=sacarOpcionesEmpDniPdo($connect);
+				$consulta=sacarOpcionesDeprtPdo($connect);
 				foreach($consulta as $valor) {
-					echo "<option value=\"".$valor["dni"]."\">".$valor["dni"]."</option>";
+					echo "<option value=\"".$valor["nombre_dpto"]."\">".$valor["nombre_dpto"]."</option>";
 				}/**/
 			?>
 			</select>
@@ -32,10 +32,10 @@
 		</body>
 		</html>
 <?php
-	if(!empty($_POST["dni"])) {
+	if(!empty($_POST["departamento"])) {
 		
-		$dni=$_POST["dni"];
-		echo empinfosal($connect,$dni);
+		$departamento=$_POST["departamento"];
+		echo empinfosal($connect,$departamento);
 	}
 	conexionClosePdo($connect);/*Se cierra la conexion*/
 ?>
