@@ -57,18 +57,9 @@
 		}
 		return $sql;
 	}
-	function sacarOpcionesAlmaNumPdo($connect) {
+	function sacarOpcionesAlmaPdo($connect) {
 		try {
-			$sql=$connect->prepare("select num_almacen from almacen");
-			$sql->execute();
-		}catch(PDOException $e) {
-			return "No hay almacen</br>";
-		}
-		return $sql;
-	}
-	function sacarOpcionesAlmaLocalPdo($connect) {
-		try {
-			$sql=$connect->prepare("select localidad from almacen group by num_almacen");
+			$sql=$connect->prepare("select num_almacen,localidad from almacen");
 			$sql->execute();
 		}catch(PDOException $e) {
 			return "No hay almacen</br>";
@@ -228,7 +219,7 @@
 			$sql=$connect->prepare("select localidad,cantidad from almacena,almacen where almacen.num_almacen=almacena.num_almacen and id_producto='$idProducto' group by almacena.num_almacen");
 			$sql->execute();
 		} catch(PDOException $e){
-			echo $sql . "<br>" . $e->getMessage();
+			return $sql . "<br>" . $e->getMessage();
 		}
 		return $sql;
 	}
@@ -242,7 +233,17 @@
 			$sql=$connect->prepare("select localidad,nombre from almacena,almacen,producto where almacen.num_almacen=almacena.num_almacen and producto.id_producto=almacena.id_producto and almacen.num_almacen='$numAlma' group by almacena.id_producto");
 			$sql->execute();
 		} catch(PDOException $e){
-			echo $sql . "<br>" . $e->getMessage();
+			return $sql . "<br>" . $e->getMessage();
+		}
+		return $sql;
+	}
+	/* Consultar Compras*/
+	function mostrarComprasPdo($connect,$nifcliente) {
+		try {
+			$sql=$connect->prepare("select cliente.nombre as nombreCliente,producto.id_producto,producto.nombre as nombreProduct,(producto.precio*compra.unidades) as precio from cliente,compra,producto where compra.nif=cliente.nif and compra.id_producto=producto.id_producto and cliente.nif='$nifcliente' group by producto.id_producto");
+			$sql->execute();
+		} catch(PDOException $e){
+			return $sql . "<br>" . $e->getMessage();
 		}
 		return $sql;
 	}
