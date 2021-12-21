@@ -9,13 +9,80 @@
 	function conexionClosePdo($connect) {  // Cerrar conexion mysql PDO
 		$connect=null;
 	}
-	
-	function contarCategorias($connect) {
-		$cont;
-			$sql=$connect->prepare("select id_categoria from categoria");
+	/* ID de las diferentes tablas*/
+	function idCategoria($connect,$nomCategoria) {
+		try {
+			$sql=$connect->prepare("select id_categoria from categoria where nombre='$nomCategoria' group by id_categoria");
 			$sql->execute();
-			foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $valor){
-				$cont="";
+		}catch(PDOException $e) {
+			return "No hay categoria id</br>";
+		}
+		return $sql;
+	}
+	function idProduct($connect,$nomProduct) {
+		try {
+			$sql=$connect->prepare("select id_producto from producto where nombre='$nomProduct' group by id_producto");
+			$sql->execute();
+		}catch(PDOException $e) {
+			return "No hay producto id</br>";
+		}
+		return $sql;
+	}
+	function idAlmacen($connect,$localidad) {
+		try {
+			$sql=$connect->prepare("select num_almacen from almacen where localidad='$localidad' group by num_almacen");
+			$sql->execute();
+		}catch(PDOException $e) {
+			return "No hay almacen id</br>";
+		}
+		return $sql;
+	}
+	
+	/* Sacar opciones de las diferentes tablas*/
+	function sacarOpcionesCategPdo($connect) {
+		try {
+			$sql=$connect->prepare("select nombre from categoria");
+			$sql->execute();
+		}catch(PDOException $e) {
+			return "No hay categoria</br>";
+		}
+		return $sql;
+	}
+	function sacarOpcionesProdPdo($connect) {
+		try {
+			$sql=$connect->prepare("select nombre from producto");
+			$sql->execute();
+		}catch(PDOException $e) {
+			return "No hay producto</br>";
+		}
+		return $sql;
+	}
+	function sacarOpcionesAlmaNumPdo($connect) {
+		try {
+			$sql=$connect->prepare("select num_almacen from almacen");
+			$sql->execute();
+		}catch(PDOException $e) {
+			return "No hay almacen</br>";
+		}
+		return $sql;
+	}
+	function sacarOpcionesAlmaLocalPdo($connect) {
+		try {
+			$sql=$connect->prepare("select localidad from almacen group by num_almacen");
+			$sql->execute();
+		}catch(PDOException $e) {
+			return "No hay almacen</br>";
+		}
+		return $sql;
+	}
+	
+	
+	function maxCategoria($connect) {
+		$cont;
+			$sql=$connect->prepare("select max(id_categoria) as id_categoria from categoria");
+			$sql->execute();
+			$cont="";
+			foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $valor) {
 				for($i=2;$i<5;$i++){
 					$cont=$cont.$valor["id_categoria"][$i];
 				}
@@ -27,7 +94,7 @@
 	}
 	/*Alta Categoria*/
 	function altaCategoria($connect,$nombre) {
-		$cont=contarCategorias($connect);
+		$cont=maxCategoria($connect);
 		if(!empty($cont)||$cont<=0){
 			$cont++;
 			if($cont<10){
@@ -53,12 +120,12 @@
 		}
 	}
 	
-	function contarProducto($connect) {
+	function maxProducto($connect) {
 		$cont;
-			$sql=$connect->prepare("select id_producto from producto");
+			$sql=$connect->prepare("select max(id_producto) as id_producto from producto");
 			$sql->execute();
-			foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $valor){
-				$cont="";
+			$cont="";
+			foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $valor) {
 				for($i=1;$i<5;$i++){
 					$cont=$cont.$valor["id_producto"][$i];
 				}
@@ -70,7 +137,7 @@
 	}
 	/*Alta Producto*/
 	function altaProducto($connect,$nombre,$precio,$nomCategoria) {
-		$cont=contarProducto($connect);
+		$cont=maxProducto($connect);
 		if(!empty($cont)||$cont<=0){
 			$cont++;
 			if($cont<10){
@@ -107,32 +174,15 @@
 			echo $sql . "<br>" . $e->getMessage();
 		}
 	}
-	function sacarOpcionesCategPdo($connect) {
-		try {
-			$sql=$connect->prepare("select nombre from categoria");
-			$sql->execute();
-		}catch(PDOException $e) {
-			return "No hay categoria</br>";
-		}
-		return $sql;
-	}
-	function idCategoria($connect,$nomCategoria) {
-		try {
-			$sql=$connect->prepare("select id_categoria from categoria where nombre='$nomCategoria' group by id_categoria");
-			$sql->execute();
-		}catch(PDOException $e) {
-			return "No hay categoria id</br>";
-		}
-		return $sql;
-	}
 	
-	function contarAlmacen($connect) {
+	function maxAlmacen($connect) {
 		$cont;
-			$sql=$connect->prepare("select count(num_almacen) as num_almacen from almacen");
-			$sql->execute();
-			foreach($sql->fetchAll(PDO::FETCH_ASSOC) as $valor){
-				$cont=$valor["num_almacen"];
-			}
+		$sql=$connect->prepare("select max(num_almacen) as num_almacen from almacen");
+		$sql->execute();
+		$cont=0;
+		foreach($sql as $valor) {
+			$cont=$valor["num_almacen"];
+		}
 		if(empty($cont)){
 			$cont=0;
 		}
@@ -140,18 +190,12 @@
 	}
 	/*Alta Almacen*/
 	function altaAlmacen($connect,$localidad) {
-		$cont=contarAlmacen($connect);
+		$cont=maxAlmacen($connect);
 		if(!empty($cont)||$cont!=0){
-			$idalmacen=0;
-			for($i=0;$i<=$cont;$i++){
-				$idalmacen+=10;
-			}
-			var_dump($idalmacen);
+			$idalmacen=$cont+10;
 		}else {
 			$idalmacen=10;
-			var_dump($idalmacen);
 		}
-		var_dump($idalmacen);
 		try {
 			$sql="INSERT INTO almacen (num_almacen,localidad) VALUES ('$idalmacen','$localidad')";
 			// use exec() because no results are returned
@@ -160,5 +204,46 @@
 		} catch(PDOException $e){
 			echo $sql . "<br>" . $e->getMessage();
 		}
+	}
+	function aprovisionarProdAlma($connect,$nomProducto,$almacen,$cantidad) {
+		$producto=idProduct($connect,$nomProducto);
+		foreach($producto as $valor) {
+			$idProducto=$valor["id_producto"];
+		}
+		try {
+			$sql="INSERT INTO almacena (num_almacen,id_producto,cantidad) VALUES ('$almacen','$idProducto','$cantidad')";
+			$connect->exec($sql);
+			echo "Asignado el aprovisionamiento con exito";
+		} catch(PDOException $e){
+			echo $sql . "<br>" . $e->getMessage();
+		}
+	}
+	/* Consultar Stock*/
+	function mostrarProdAlmaCantPdo($connect,$nomProduct) {
+		$producto=idProduct($connect,$nomProduct);
+		foreach($producto as $valor) {
+			$idProducto=$valor["id_producto"];
+		}
+		try {
+			$sql=$connect->prepare("select localidad,cantidad from almacena,almacen where almacen.num_almacen=almacena.num_almacen and id_producto='$idProducto' group by almacena.num_almacen");
+			$sql->execute();
+		} catch(PDOException $e){
+			echo $sql . "<br>" . $e->getMessage();
+		}
+		return $sql;
+	}
+	/* Consultar almacenes*/
+	function mostrarAlmaProdPdo($connect,$localidad) {
+		$almacen=idAlmacen($connect,$localidad);
+		foreach($almacen as $valor) {
+			$numAlma=$valor["num_almacen"];
+		}
+		try {
+			$sql=$connect->prepare("select localidad,nombre from almacena,almacen,producto where almacen.num_almacen=almacena.num_almacen and producto.id_producto=almacena.id_producto and almacen.num_almacen='$numAlma' group by almacena.id_producto");
+			$sql->execute();
+		} catch(PDOException $e){
+			echo $sql . "<br>" . $e->getMessage();
+		}
+		return $sql;
 	}
 ?>
