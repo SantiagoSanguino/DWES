@@ -103,11 +103,10 @@
 		}
 		try {
 			$sql="INSERT INTO categoria (id_categoria,nombre) VALUES ('$idcategoria','$nombre')";
-			// use exec() because no results are returned
 			$connect->exec($sql);
 			echo "Creado la categoria con exito";
 		} catch(PDOException $e){
-			echo $sql . "<br>" . $e->getMessage();
+			echo $sql."<br>".$e->getMessage();
 		}
 	}
 	
@@ -158,11 +157,10 @@
 			}else {
 				$sql="INSERT INTO producto (id_producto,nombre,precio,id_categoria) VALUES ('$idproducto','$nombre','$precio','$idCateg')";
 			}
-			// use exec() because no results are returned
 			$connect->exec($sql);
 			echo "Creado el producto con exito";
 		} catch(PDOException $e){
-			echo $sql . "<br>" . $e->getMessage();
+			echo $sql."<br>".$e->getMessage();
 		}
 	}
 	
@@ -189,13 +187,78 @@
 		}
 		try {
 			$sql="INSERT INTO almacen (num_almacen,localidad) VALUES ('$idalmacen','$localidad')";
-			// use exec() because no results are returned
 			$connect->exec($sql);
 			echo "Creado el almacen con exito";
 		} catch(PDOException $e){
-			echo $sql . "<br>" . $e->getMessage();
+			echo $sql."<br>".$e->getMessage();
 		}
 	}
+	/*Alta Cliente*/
+	function altaCliente($connect,$datos) {
+		$nif=$datos[0];
+		$countNif=strlen($nif);
+		$countDatos=count($datos);
+		$esnif=true;
+		$mensaje="";
+		if(!empty($nif)){
+			if($countNif==9) {
+				for($i=0;$i<$countNif-1;$i++){
+					$num=$nif[$i];
+					if($num<0||$num>9){
+						$esnif=false;
+					}
+				}
+				$nifletra=strtolower(substr($nif,$countNif-1));
+				if($nifletra<"a"||$nifletra>"z") {
+					$esnif=false;
+				}
+			}else {
+				$mensaje=$mensaje."No es un NIF valido";
+				$esnif=false;
+			}
+			if($esnif){
+				$sql=$connect->prepare("select nif from cliente where nif='$nif' group by nif");
+				if($sql->execute()) {
+					echo "No esta repetido el nif";
+				}else {
+					echo "Esta repetido el nif";
+				}
+			}
+		}
+		/*if($esnif){
+			for($i=1;$i<$countDatos;$i++) {
+				if(empty($datos[$i])){
+					$datos[$i]=null;
+				}
+			}
+			$datosCliente="";
+			for($i=0;$i<$countDatos;$i++) {
+				if($i!=0){
+					if($datos[$i]==null){
+						$datosCliente=$datosCliente.",null";
+					}else {
+						$datosCliente=$datosCliente.",'".$datos[$i]."'";
+					}
+				}else {
+					$datosCliente="'".$datos[$i]."'";
+				}
+			}
+			try {
+				$sql="INSERT INTO cliente (nif,nombre,apellido,cp,direccion,ciudad) VALUES ($datosCliente)";
+				$connect->exec($sql);
+				echo "Creado el cliente con exito";
+			} catch(PDOException $e){
+				echo $sql."<br>".$e->getMessage();
+			}
+		}else {
+			if(empty($mensaje)) {
+				echo "No es un NIF valido";
+			}else {
+				echo $mensaje;
+			}
+		}/**/
+	}
+	
 	function aprovisionarProdAlma($connect,$nomProducto,$almacen,$cantidad) {
 		$producto=idProduct($connect,$nomProducto);
 		foreach($producto as $valor) {
@@ -219,7 +282,7 @@
 			$sql=$connect->prepare("select localidad,cantidad from almacena,almacen where almacen.num_almacen=almacena.num_almacen and id_producto='$idProducto' group by almacena.num_almacen");
 			$sql->execute();
 		} catch(PDOException $e){
-			return $sql . "<br>" . $e->getMessage();
+			return $sql."<br>".$e->getMessage();
 		}
 		return $sql;
 	}
@@ -233,18 +296,21 @@
 			$sql=$connect->prepare("select localidad,nombre from almacena,almacen,producto where almacen.num_almacen=almacena.num_almacen and producto.id_producto=almacena.id_producto and almacen.num_almacen='$numAlma' group by almacena.id_producto");
 			$sql->execute();
 		} catch(PDOException $e){
-			return $sql . "<br>" . $e->getMessage();
+			return $sql."<br>".$e->getMessage();
 		}
 		return $sql;
 	}
 	/* Consultar Compras*/
 	function mostrarComprasPdo($connect,$nifcliente) {
-		try {
+		try { //Falta realizar lo de la fecha
 			$sql=$connect->prepare("select cliente.nombre as nombreCliente,producto.id_producto,producto.nombre as nombreProduct,(producto.precio*compra.unidades) as precio from cliente,compra,producto where compra.nif=cliente.nif and compra.id_producto=producto.id_producto and cliente.nif='$nifcliente' group by producto.id_producto");
 			$sql->execute();
 		} catch(PDOException $e){
-			return $sql . "<br>" . $e->getMessage();
+			return $sql."<br>".$e->getMessage();
 		}
 		return $sql;
+	}
+	function resgistroCliente($connect,$user,$pass) {
+		
 	}
 ?>

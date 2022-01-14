@@ -25,7 +25,7 @@
 			<p>Localidad almacen:
 			<select name="almacen" id="almacen"> 
 			<?php
-				$consulta=sacarOpcionesAlmaNumPdo($connect);
+				$consulta=sacarOpcionesAlmaPdo($connect);
 				foreach($consulta as $valor) {
 					echo "<option value=\"".$valor["num_almacen"]."\">".$valor["num_almacen"]."</option>";
 				}/**/
