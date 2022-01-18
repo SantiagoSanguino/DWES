@@ -217,15 +217,17 @@
 				$esnif=false;
 			}
 			if($esnif){
-				$sql=$connect->prepare("select nif from cliente where nif='$nif' group by nif");
-				if($sql->execute()) {
-					echo "No esta repetido el nif";
-				}else {
-					echo "Esta repetido el nif";
-				}
+				$sql->execute();
+				foreach($sql as $valor)  {
+					if($valor["nif"]==0) {
+						echo "No esta repetido el nif";
+					}else {
+						echo "Esta repetido el nif";
+						$esnif=false;
+					}
+				}/* */
 			}
-		}
-		/*if($esnif){
+		}if($esnif){
 			for($i=1;$i<$countDatos;$i++) {
 				if(empty($datos[$i])){
 					$datos[$i]=null;
@@ -310,7 +312,92 @@
 		}
 		return $sql;
 	}
-	function resgistroCliente($connect,$user,$pass) {
-		
+	function resgistroCliente($connect,$datos) {
+		$nif=$datos[0];
+		$countNif=strlen($nif);
+		$countDatos=count($datos);
+		$esnif=true;
+		$mensaje="";
+		if(!empty($nif)){
+			if($countNif==9) {
+				for($i=0;$i<$countNif-1;$i++){
+					$num=$nif[$i];
+					if($num<0||$num>9){
+						$esnif=false;
+					}
+				}
+				$nifletra=strtolower(substr($nif,$countNif-1));
+				if($nifletra<"a"||$nifletra>"z") {
+					$esnif=false;
+				}
+			}else {
+				$mensaje=$mensaje."No es un NIF valido";
+				$esnif=false;
+			}
+			if($esnif){
+				$sql=$connect->prepare("select count(nif) as nif from cliente where nif='$nif' group by nif");
+				$sql->execute();
+				foreach($sql as $valor)  {
+					if($valor["nif"]==0) {
+						$mensaje="No esta repetido el nif";
+					}else {
+						$mensaje="Esta repetido el nif";
+						$esnif=false;
+					}
+				}/* */
+			}
+		}
+		if($esnif){
+			for($i=1;$i<$countDatos;$i++) {
+				if(empty($datos[$i])){
+					$datos[$i]=null;
+				}
+			}
+			$datosCliente="";
+			for($i=0;$i<$countDatos;$i++) {
+				if($i!=0){
+					if($datos[$i]==null){
+						$datosCliente=$datosCliente.",null";
+					}else {
+						$datosCliente=$datosCliente.",'".$datos[$i]."'";
+					}
+				}else {
+					$datosCliente="'".$datos[$i]."'";
+				}
+			}
+			try {
+				$sql="INSERT INTO cliente (nif,nombre,apellido,cp,direccion,ciudad,clave) VALUES ($datosCliente)";
+				$connect->exec($sql);
+				echo "Creado el cliente con exito";
+			} catch(PDOException $e){
+				echo $sql."<br>".$e->getMessage();
+			}
+		}else {
+			if(empty($mensaje)) {
+				$mensaje="No es un NIF valido";
+			}else {
+				echo $mensaje;
+			}
+		}
+	}
+	function createClave($apellido) {
+		$clave="";
+		for($i=strlen($apellido)-1;$i>=0;$i--) {
+			$clave=$clave.substr($apellido,$i,1);
+		}
+		return $clave;
+	}
+	function comprobarInicio($connect,$usuario,$clave) {
+		$sql=$connect->prepare("select count(nif) as nif from cliente where nombre='$usuario' and clave='$clave' group by nif");
+		$sql->execute();
+		$essesion=false;
+		foreach($sql as $valor)  {
+			if($valor["nif"]==0) {
+				$essesion=false;
+			}else {
+				$essesion=true;
+			}
+		}
+		return $essesion;
 	}
 ?>

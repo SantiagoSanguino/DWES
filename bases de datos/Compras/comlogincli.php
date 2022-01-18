@@ -10,50 +10,29 @@
 		$connect=conexionOpenPdo($usuario,$password,$basedatos);
 		$user=$_POST["username"];
 		$pass=$_POST["password"];
-		$essesion=resgistroCliente($connect,$user,$pass);
+		$essesion=comprobarInicio($connect,$user,$pass);
 		
 		if($essesion){
 			session_unset();
 			$_SESSION["username"]=$user;
-			$_SESSION["password"]=$pass;
+			header("location: comwelcome.php");
 		}
 		conexionClosePdo($connect);/*Se cierra la conexion*/
 	}
-	if(isset($_SESSION["username"])&&isset($_SESSION["password"])) {
-		
-		
-		?>
-		<html>
-		<head>
-			<meta name="author" content="Santiago Sanguino" />
-			<meta charset="utf-8">
-			<title>Sesion iniciada <?php echo $_SESSION["username"] ?> </title>
-		</head>
-		<body>
-			
-				<!-- <a href=""><input type="" value=" " name=" " /></a> <!-- -->
-			
-		</body>
-		</html>
-		<?php
-	}else if(!isset($_SESSION["username"])&&!isset($_SESSION["password"])) {
-		?>
-		<html>
-		<head>
-			<meta name="author" content="Santiago Sanguino" />
-			<meta charset="utf-8">
-			<title>Login</title>
-		</head>
-		<body>
-			<h3>Inicio de sesion de usuario de la base de datos</h3>
-			<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?> " >
-			<p>Usuario: <input type="text" name="username" id="username" /></br>
-			<p>Contraseña: <input type="password" name="password" id="password" /></br>
-			</br>
-				<input type="submit" value="Iniciar sesion" name="Iniciar sesion" />
-			</form>
-		</body>
-		</html>
-<?php
-	}
-?>
+	?>
+	<html>
+	<head>
+		<meta name="author" content="Santiago Sanguino" />
+		<meta charset="utf-8">
+		<title>Login</title>
+	</head>
+	<body>
+		<h3>Inicio de sesion de usuario</h3>
+		<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?> " >
+		<p>Usuario: <input type="text" name="username" id="username" /></br>
+		<p>Contraseña: <input type="password" name="password" id="password" /></br>
+		</br>
+			<input type="submit" value="Iniciar sesion" name="Iniciar sesion" />
+		</form>
+	</body>
+	</html>
