@@ -12,7 +12,7 @@
 	<head>
 		<meta name="author" content="Santiago Sanguino" />
 		<meta charset="utf-8">
-		<title> Welcome</title>
+		<title> Sesion iniciada</title>
 	</head>
 <?php
 	if(isset($_SESSION["username"])) {
