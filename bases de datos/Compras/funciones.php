@@ -380,13 +380,17 @@
 			}
 		}
 	}
+	
 	function createClave($apellido) {
+		$clave=strrev($apellido);
+		/*
 		$clave="";
 		for($i=strlen($apellido)-1;$i>=0;$i--) {
 			$clave=$clave.substr($apellido,$i,1);
-		}
+		}*/
 		return $clave;
 	}
+	
 	function comprobarInicio($connect,$usuario,$clave) {
 		$sql=$connect->prepare("select count(nif) as nif from cliente where nombre='$usuario' and clave='$clave' group by nif");
 		$sql->execute();
@@ -400,4 +404,17 @@
 		}
 		return $essesion;
 	}
+	
+	function getNif($connect,$usuario,$clave) {
+		$sql=$connect->prepare("select nif from cliente where nombre='$usuario' and clave='$clave' group by nif");
+		$sql->execute();
+		$nif;
+		foreach($sql as $valor)  {
+			if($valor["nif"]!=null) {
+				$nif=$valor["nif"];
+			}
+		}
+		return $nif;
+	}
+	
 ?>
