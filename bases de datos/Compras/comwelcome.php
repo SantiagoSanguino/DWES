@@ -13,8 +13,8 @@
 		header("location: comlogincli.php");
 	} /* */
 	/* Cookies */
-	if(!isset($_COOKIE["cookie_name"])) {
-		//header("location: comlogincli.php");
+	if(!isset($_COOKIE[$cookie_name])) {
+		header("location: comlogincli.php");
 	} /* */
 ?>
 
@@ -37,14 +37,14 @@
 	} 	/* */
 	/* Cookies*/
 	
-	//if(isset($_COOKIE["cookie_name"])) {
+	if(isset($_COOKIE[$cookie_name])) {
 	?>
 	<body>
 			<div>
 				<h4>Sesion iniciada <?php echo strstr($_COOKIE[$cookie_name],"/",1) ?></h4>
 				
 <?php
-	//}	/* */
+	}	/* */
 ?>
 				<ul>
 					<li><a href="compro.php">Compra de producto</a></li>

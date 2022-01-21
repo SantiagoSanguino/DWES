@@ -2,12 +2,9 @@
 	session_start();
 	/* Fichero con las funciones*/
 	include "funciones.php";
+	include "loginbbdd.php";
 	
 	if(!empty($_POST["nif"])&&!empty($_POST["apellido"])) {
-		$usuario="root";//$_POST["user"];
-		$password="rootroot";//$_POST["password"];
-		$basedatos="comprasweb";//$_POST["database"];
-		$connect=conexionOpenPdo($usuario,$password,$basedatos);
 		
 		$nif=$_POST["nif"];
 		$nombre=$_POST["nombre"];
